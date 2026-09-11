@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Resultados - Panel Admin</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f4f8;
+        }
+
+        header {
+            background: #1a3c6e;
+            color: white;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.2rem;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .seccion {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            color: #1a3c6e;
+            margin-bottom: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #1a3c6e;
+            color: white;
+            padding: 0.8rem 1rem;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+            font-size: 0.88rem;
+        }
+
+        tr:hover td {
+            background: #f8f9fa;
+        }
+
+        .btn-ver {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            background: #e8f5e9;
+            color: #2e7d32;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .ACTIVA {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .CERRADA {
+            background: #fde8e8;
+            color: #c0392b;
+        }
+
+        .PENDIENTE {
+            background: #fff3e0;
+            color: #e65100;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>📊 Resultados Electorales</h1>
+        <div class="nav">
+            <a th:href="@{/admin/dashboard}">Dashboard</a>
+            <a th:href="@{/admin/logout}">Cerrar sesión</a>
+        </div>
+    </header>
+    <main>
+        <div class="seccion">
+            <h2>Selecciona una elección para ver sus resultados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Elección</th>
+                        <th>Estado</th>
+                        <th>Publicada</th>
+                        <th>Ver resultados</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="e : ${elecciones}">
+                        <td th:text="${e.nombre}">Nombre</td>
+                        <td><span class="badge" th:classappend="${e.estado}" th:text="${e.estado}"></span></td>
+                        <td th:text="${e.publicada ? 'Sí' : 'No'}">No</td>
+                        <td>
+                            <a class="btn-ver" th:href="@{/resultados/admin/{id}(id=${e.idEleccion})}">
+                                Ver →
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+
+</html>

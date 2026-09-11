@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Resultados Finales</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a3c6e, #0d2240);
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 1.5rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+        }
+
+        header p {
+            font-size: 0.88rem;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        main {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            margin-bottom: 1.2rem;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card h3 {
+            font-size: 1.05rem;
+            color: #1a3c6e;
+            margin-bottom: 0.4rem;
+        }
+
+        .card p {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .btn-volver {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .empty {
+            text-align: center;
+            color: white;
+            padding: 3rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>📊 Resultados Electorales</h1>
+        <p>Resultados oficiales publicados</p>
+    </header>
+    <main>
+        <a class="card" th:each="e : ${elecciones}" th:href="@{/resultados/{id}(id=${e.idEleccion})}">
+            <h3 th:text="${e.nombre}">Nombre</h3>
+            <p th:text="${e.descripcion}">Descripción</p>
+        </a>
+        <div th:if="${#lists.isEmpty(elecciones)}" class="empty">
+            No hay resultados publicados aún.
+        </div>
+        <a class="btn-volver" href="/votante/login">← Volver</a>
+    </main>
+</body>
+
+</html>

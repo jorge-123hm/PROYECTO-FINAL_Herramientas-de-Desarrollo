@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Votantes</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f4f8;
+        }
+
+        header {
+            background: #1a3c6e;
+            color: white;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.2rem;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .seccion {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            color: #1a3c6e;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.65rem 0.9rem;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1a3c6e;
+        }
+
+        .btn-guardar {
+            margin-top: 1rem;
+            padding: 0.75rem 2rem;
+            background: #1a3c6e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #1a3c6e;
+            color: white;
+            padding: 0.8rem 1rem;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+            font-size: 0.88rem;
+        }
+
+        tr:hover td {
+            background: #f8f9fa;
+        }
+
+        .btn-eliminar {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            background: #fde8e8;
+            color: #c0392b;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .error {
+            background: #fde8e8;
+            color: #c0392b;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+        }
+
+        .buscador {
+            width: 100%;
+            padding: 0.65rem 1rem;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .total {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>👥 Gestionar Votantes</h1>
+        <div class="nav">
+            <a th:href="@{/admin/dashboard}">Dashboard</a>
+            <a th:href="@{/admin/logout}">Cerrar sesión</a>
+        </div>
+    </header>
+    <main>
+        <!-- Formulario nuevo votante -->
+        <div class="seccion">
+            <h2>➕ Registrar Votante</h2>
+            <div th:if="${error}" class="error" th:text="${error}"></div>
+            <form method="post" th:action="@{/votantes/guardar}">
+                <div class="form-grid">
+                    <div>
+                        <label>DNI</label>
+                        <input type="text" name="dni" required minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="Ej: 12345678" />
+                    </div>
+                    <div>
+                        <label>Celular</label>
+                        <input type="text" name="celular" required minlength="9" maxlength="9" pattern="9[0-9]{8}" placeholder="Ej: 999888777" />
+                    </div>
+                    <div>
+                        <label>Nombres</label>
+                        <input type="text" name="nombres" required placeholder="Nombres" />
+                    </div>
+                    <div>
+                        <label>Apellidos</label>
+                        <input type="text" name="apellidos" required placeholder="Apellidos" />
+                    </div>
+                </div>
+                <button type="submit" class="btn-guardar">Registrar Votante</button>
+            </form>
+        </div>
+
+        <!-- Lista de votantes -->
+        <div class="seccion">
+            <h2>📋 Votantes Registrados</h2>
+            <p class="total">Total: <strong th:text="${#lists.size(votantes)}">0</strong> votantes</p>
+            <input class="buscador" type="text" id="buscador" placeholder="🔍 Buscar por nombre o DNI..."
+                onkeyup="filtrar()" />
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>DNI</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Celular</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaVotantes">
+                    <tr th:each="v, i : ${votantes}">
+                        <td th:text="${i.count}">1</td>
+                        <td th:text="${v.dni}">DNI</td>
+                        <td th:text="${v.nombres}">Nombres</td>
+                        <td th:text="${v.apellidos}">Apellidos</td>
+                        <td th:text="${v.celular}">Celular</td>
+                        <td>
+                            <a class="btn-eliminar" th:href="@{'/votantes/eliminar/' + ${v.idVotante}}">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(votantes)}">
+                        <td colspan="6" style="text-align:center; color:#aaa; padding:2rem;">
+                            No hay votantes registrados
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script>
+        function filtrar() {
+            const texto = document.getElementById('buscador').value.toLowerCase();
+            const filas = document.querySelectorAll('#tablaVotantes tr');
+            filas.forEach(fila => {
+                const contenido = fila.textContent.toLowerCase();
+                fila.style.display = contenido.includes(texto) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+
+</html>

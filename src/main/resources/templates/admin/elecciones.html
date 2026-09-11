@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Gestionar Elecciones</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f4f8;
+        }
+
+        header {
+            background: #1a3c6e;
+            color: white;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.2rem;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1rem;
+            font-size: 0.88rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .seccion {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            color: #1a3c6e;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.65rem 0.9rem;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #1a3c6e;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .btn-guardar {
+            margin-top: 1rem;
+            padding: 0.75rem 2rem;
+            background: #1a3c6e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #1a3c6e;
+            color: white;
+            padding: 0.8rem 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+            font-size: 0.88rem;
+            text-align: center;
+        }
+
+        tr:hover td {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .ACTIVA {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .CERRADA {
+            background: #fde8e8;
+            color: #c0392b;
+        }
+
+        .PENDIENTE {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .btn-accion {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            text-decoration: none;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .btn-activar {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .btn-cerrar {
+            background: #fde8e8;
+            color: #c0392b;
+        }
+
+        .btn-publicar{
+            background:#fff3e0; 
+            color:#e65100;
+        }
+
+        .btn-resultados{
+            background:#e8f5e9; 
+            color:#2e7d32;
+        }
+
+        .btn-eliminar {
+            background: #f5f5f5;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>⚙️ Gestionar Elecciones</h1>
+        <div class="nav">
+            <a th:href="@{/admin/dashboard}">Dashboard</a>
+            <a th:href="@{/admin/logout}">Cerrar sesión</a>
+        </div>
+    </header>
+    <main>
+        <!-- Formulario nueva elección -->
+        <div class="seccion">
+            <h2>➕ Nueva Elección</h2>
+            <form method="post" th:action="@{/elecciones/guardar}">
+                <div class="form-grid">
+                    <div>
+                        <label>Nombre</label>
+                        <input type="text" name="nombre" required placeholder="Ej: Elecciones Municipales 2026" />
+                    </div>
+                    <div>
+                        <label>Estado</label>
+                        <select name="estado">
+                            <option value="PENDIENTE">Pendiente</option>
+                            <option value="ACTIVA">Activa</option>
+                            <option value="CERRADA">Cerrada</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Fecha inicio</label>
+                        <input type="datetime-local" name="fechaInicio" required />
+                    </div>
+                    <div>
+                        <label>Fecha fin</label>
+                        <input type="datetime-local" name="fechaFin" required />
+                    </div>
+                    <div class="full">
+                        <label>Descripción</label>
+                        <input type="text" name="descripcion" placeholder="Descripción breve" />
+                    </div>
+                </div>
+                <button type="submit" class="btn-guardar">Guardar Elección</button>
+            </form>
+        </div>
+
+        <!-- Lista de elecciones -->
+        <div class="seccion">
+            <h2>📋 Elecciones Registradas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="e : ${elecciones}">
+                        <td th:text="${e.nombre}">Nombre</td>
+                        <td th:text="${#temporals.format(e.fechaInicio, 'dd/MM/yyyy HH:mm')}">Fecha</td>
+                        <td th:text="${#temporals.format(e.fechaFin,    'dd/MM/yyyy HH:mm')}">Fecha</td>
+                        <td><span class="badge" th:classappend="${e.estado}" th:text="${e.estado}"></span></td>
+                        <td style="white-space: nowrap;">
+                            <a class="btn-accion btn-activar" th:if="${!e.publicada}"
+                                th:href="@{/elecciones/estado/{id}/ACTIVA(id=${e.idEleccion})}">Activar</a>
+                            <a class="btn-accion btn-cerrar" th:if="${!e.publicada}"
+                                th:href="@{/elecciones/estado/{id}/CERRADA(id=${e.idEleccion})}">Cerrar</a>
+                            <a class="btn-accion btn-publicar" th:if="${e.estado == 'CERRADA' and !e.publicada}"
+                                th:onclick="'abrirModalPublicar(\'/elecciones/publicar/' + ${e.idEleccion} + '\')'"
+                                href="javascript:void(0)">Publicar</a>
+                            <span th:if="${e.publicada}" style="background:#e8f5e9; color:#2e7d32; padding: 3px 10px;
+                                border-radius: 5px; font-size: 0.78rem; font-weight: 600; margin-right: 3px;">
+                                ✅ Publicada
+                            </span>
+                            <a class="btn-accion btn-resultados" th:href="@{'/resultados/admin/' + ${e.idEleccion}}"
+                                >Resultados</a>
+                            <a class="btn-accion btn-eliminar"
+                                th:onclick="'abrirModalEliminar(\'/elecciones/eliminar/' + ${e.idEleccion} + '\')'"
+                                href="javascript:void(0)">Eliminar</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(elecciones)}">
+                        <td colspan="5" style="text-align:center; color:#aaa; padding:2rem">
+                            No hay elecciones registradas
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <!-- Modal confirmar eliminación -->
+    <div id="modalEliminar" style="
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5); z-index: 999;
+    align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 16px; padding: 2rem;
+        max-width: 380px; width: 90%; text-align: center;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🗑️</div>
+            <h2 style="color: #c0392b; font-size: 1.1rem; margin-bottom: 0.5rem;">
+                Eliminar Elección
+            </h2>
+            <p style="color: #555; font-size: 0.88rem; margin-bottom: 1.2rem;">
+                Está seguro? Esta acción eliminará todos los candidatos, votos y comprobantes asociados a esta elección.
+                Se eliminará información sensible.
+                Ingresa tu contraseña para confirmar.
+            </p>
+            <input type="password" id="passwordConfirm" placeholder="Ingresa tu contraseña" style="width:100%; padding: 0.7rem 1rem; border: 1.5px solid #ddd;
+                    border-radius: 8px; font-size: 0.95rem; margin-bottom: 0.5rem;" />
+            <p id="errorPassword" style="color:#c0392b; font-size:0.82rem;
+                    margin-bottom: 0.8rem; display:none;">
+                Contraseña incorrecta
+            </p>
+            <div style="display: flex; gap: 10px; margin-top: 0.5rem;">
+                <button onclick="cerrarModal()" style="
+                flex: 1; padding: 0.75rem; border: 2px solid #ddd;
+                background: white; border-radius: 8px; cursor: pointer;
+                font-size: 0.9rem; font-weight: 600; color: #666;">
+                    Cancelar
+                </button>
+                <button onclick="confirmarEliminar()" style="
+                flex: 1; padding: 0.75rem; background: #c0392b;
+                color: white; border: none; border-radius: 8px;
+                cursor: pointer; font-size: 0.9rem; font-weight: 600;">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal confirmar publicación -->
+    <div id="modalPublicar" style="
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5); z-index: 999;
+    align-items: center; justify-content: center;">
+        <div style="
+        background: white; border-radius: 16px; padding: 2rem;
+        max-width: 380px; width: 90%; text-align: center;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">📢</div>
+            <h2 style="color: #1a3c6e; font-size: 1.1rem; margin-bottom: 0.5rem;">
+                Publicar Resultados
+            </h2>
+            <p style="color: #555; font-size: 0.88rem; margin-bottom: 1.2rem;">
+                Una vez publicados los resultados serán visibles para todos los votantes.
+                Ingresa tu contraseña para confirmar.
+            </p>
+            <input type="password" id="passwordPublicar" placeholder="Ingresa tu contraseña" style="width:100%; padding: 0.7rem 1rem; border: 1.5px solid #ddd;
+                    border-radius: 8px; font-size: 0.95rem; margin-bottom: 0.5rem;" />
+            <p id="errorPasswordPublicar" style="color:#c0392b; font-size:0.82rem;
+                margin-bottom: 0.8rem; display:none;">
+                Contraseña incorrecta
+            </p>
+            <div style="display: flex; gap: 10px; margin-top: 0.5rem;">
+                <button onclick="cerrarModalPublicar()" style="
+                flex: 1; padding: 0.75rem; border: 2px solid #ddd;
+                background: white; border-radius: 8px; cursor: pointer;
+                font-size: 0.9rem; font-weight: 600; color: #666;">
+                    Cancelar
+                </button>
+                <button onclick="confirmarPublicar()" style="
+                flex: 1; padding: 0.75rem; background: #1a3c6e;
+                color: white; border: none; border-radius: 8px;
+                cursor: pointer; font-size: 0.9rem; font-weight: 600;">
+                    Publicar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let urlEliminar = '';
+
+        function abrirModalEliminar(url) {
+            urlEliminar = url;
+            document.getElementById('passwordConfirm').value = '';
+            document.getElementById('errorPassword').style.display = 'none';
+            document.getElementById('modalEliminar').style.display = 'flex';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalEliminar').style.display = 'none';
+        }
+
+        function confirmarEliminar() {
+            const password = document.getElementById('passwordConfirm').value;
+            if (!password) {
+                document.getElementById('errorPassword').textContent = 'Ingresa tu contraseña';
+                document.getElementById('errorPassword').style.display = 'block';
+                return;
+            }
+
+            // Llama al endpoint de verificación
+            fetch('/elecciones/verificar-password?password=' + encodeURIComponent(password))
+                .then(res => res.json())
+                .then(data => {
+                    if (data.valido) {
+                        window.location.href = urlEliminar;
+                    } else {
+                        document.getElementById('errorPassword').textContent = 'Contraseña incorrecta';
+                        document.getElementById('errorPassword').style.display = 'block';
+                    }
+                });
+        }
+
+        let urlPublicar = '';
+
+        function abrirModalPublicar(url) {
+            urlPublicar = url;
+            document.getElementById('passwordPublicar').value = '';
+            document.getElementById('errorPasswordPublicar').style.display = 'none';
+            document.getElementById('modalPublicar').style.display = 'flex';
+        }
+
+        function cerrarModalPublicar() {
+            document.getElementById('modalPublicar').style.display = 'none';
+        }
+
+        function confirmarPublicar() {
+            const password = document.getElementById('passwordPublicar').value;
+            if (!password) {
+                document.getElementById('errorPasswordPublicar').textContent = 'Ingresa tu contraseña';
+                document.getElementById('errorPasswordPublicar').style.display = 'block';
+                return;
+            }
+
+            fetch('/elecciones/verificar-password?password=' + encodeURIComponent(password))
+                .then(res => res.json())
+                .then(data => {
+                    if (data.valido) {
+                        window.location.href = urlPublicar;
+                    } else {
+                        document.getElementById('errorPasswordPublicar').textContent = 'Contraseña incorrecta';
+                        document.getElementById('errorPasswordPublicar').style.display = 'block';
+                    }
+                });
+        }
+    </script>
+</body>
+
+</html>

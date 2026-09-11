@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión — SVES</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            height: 100vh;
+        }
+
+        .contenedor{
+            display: flex;
+            height: 100vh;
+        }
+
+        /*PANEL IZQUIERDO*/
+
+        .info-panel{
+            width: 50%;
+            background: #1e3a8a;
+            color:white;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo h1{
+            font-size: 2rem;
+        }
+        
+        .logo p{
+            margin-top:5px;
+            opacity: .8;
+        }
+
+        .hero{
+            margin-top:80px
+        }
+
+        .hero h2{
+            font-size:3rem;
+            line-height: 1.2;
+            margin-bottom: 25px;
+        }
+
+        hero p{
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        .features{
+            margin-top: auto;
+        }
+
+        .feature{
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        /*Panel Derecho*/
+
+        .login-panel{
+            width: 50%;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            width: 420px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .card h2{
+            margin-bottom:10px;
+            color:#222;
+        }
+
+        .subtitle{
+            color:#777;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #1a3c6e;
+        }
+
+        .captcha-box {
+            background: #f5f5f5;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.2rem;
+            cursor: pointer;
+        }
+
+        .captcha-box input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .captcha-box span {
+            font-size: 0.9rem;
+            color: #444;
+        }
+
+        .captcha-logo {
+            margin-left: auto;
+            font-size: 0.7rem;
+            color: #aaa;
+            text-align: center;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.85rem;
+            background: #1a3c6e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #0d2240;
+        }
+
+        .error {
+            background: #fde8e8;
+            color: #c0392b;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .info-panel {
+            display: none;
+            }
+
+            .login-panel {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3a8a, #0d2240);
+            padding: 2rem 1rem;
+            }
+
+            .card {
+            width: 100%;
+            max-width: 420px;
+            }
+
+            .captcha-wrap {
+            overflow-x: auto;
+            }
+
+            .g-recaptcha {
+            transform: scale(0.85);
+            transform-origin: left top;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor">
+        <!--Panel izquierdo-->
+        <div class="info-panel">
+            <div class="logo">
+                <h1>SVÉS</h1>
+                <p>Sistema de Votación Electrónica Segura</p>
+            </div>
+
+            <div class="hero">
+                <h2>Tu voto es privado,<br>seguro y verificable</h2>
+                <p>El Sistema de Votación Electrónica Segura garantiza la transparencia y confiabilidad de los procesos electorales en el Perú.</p>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    ✓ Verificación de autenticidad
+                </div>
+                <div class="feature">
+                    ✓ Encriptación de datos
+                </div>
+                <div class="feature">
+                    ✓ Código de verificación
+                </div>
+            </div>
+        </div>
+
+        <!--Panel derecho-->
+        <div class="login-panel">
+    <div class="card">
+            <h2>Iniciar sesión</h2>
+            <p class="subtitle">Ingresa tu DNI para continuar</p>
+
+        <div th:if="${error}" class="error" th:text="${error}"></div>
+
+        <form method="post" th:action="@{/votante/login}" id="loginForm">
+            <label for="dni">Número de DNI</label>
+            <input type="text" id="dni" name="dni" placeholder="Ej: 12345678" maxlength="8" required />
+
+            <!-- Captcha -->
+            <div class="captcha-wrap">
+            <div class="g-recaptcha" data-sitekey="6LehsU4tAAAAADjXL3NtgkhMwH63mlcgJOmOqQLM"></div>
+            </div>
+
+            <button type="submit" class="btn">Validar identidad</button>
+            <div style="text-align: center; margin-top: 1rem;">
+    <a th:href="@{/resultados}" style="font-size: 0.88rem; color: #1a3c6e;
+        text-decoration: none; font-weight: 600;">
+        Ver resultados publicados
+    </a>
+</div>
+        </form>
+    </div>
+    </div>
+    </div>
+</body>
+
+</html>

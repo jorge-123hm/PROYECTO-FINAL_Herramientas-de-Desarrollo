@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verificar OTP</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a3c6e, #0d2240);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            color: #1a3c6e;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .otp-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .otp-inputs input {
+            width: 48px;
+            height: 56px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: border-color 0.2s;
+        }
+
+        .otp-inputs input:focus {
+            outline: none;
+            border-color: #1a3c6e;
+        }
+
+        input[type="hidden"] {
+            display: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.85rem;
+            background: #1a3c6e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0d2240;
+        }
+
+        .error {
+            background: #fde8e8;
+            color: #c0392b;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+        }
+
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+        }
+
+        .reenviar {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .reenviar a {
+            color: #1a3c6e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 380px) {
+            .otp-inputs { 
+                gap: 5px; 
+            }
+            .card { 
+                padding: 1.2rem; 
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>📱 Verificación OTP</h1>
+        <p>Ingresa el código de 6 dígitos enviado a tu celular:
+            <strong th:text="${celular}">999888777>  </strong>
+        </p>
+
+        <div th:if="${error}" class="error" th:text="${error}"></div>
+        <div th:if="${mensaje}" class="success" th:text="${mensaje}"></div>
+
+        <form method="post" th:action="@{/votante/verificar-otp}" id="otpForm">
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" class="otp-digit" id="d1" />
+                <input type="text" maxlength="1" class="otp-digit" id="d2" />
+                <input type="text" maxlength="1" class="otp-digit" id="d3" />
+                <input type="text" maxlength="1" class="otp-digit" id="d4" />
+                <input type="text" maxlength="1" class="otp-digit" id="d5" />
+                <input type="text" maxlength="1" class="otp-digit" id="d6" />
+            </div>
+            <input type="hidden" name="codigo" id="codigoFinal" />
+            <button type="submit" class="btn" onclick="unirCodigo()">Verificar</button>
+        </form>
+
+        <p class="reenviar">¿No recibiste el código? <a th:href="@{/votante/login}">Volver a intentar</a></p>
+    </div>
+    <script>
+        // Auto-focus al siguiente campo
+        const digits = document.querySelectorAll('.otp-digit');
+        digits.forEach((input, i) => {
+            input.addEventListener('input', () => {
+                if (input.value && i < digits.length - 1) digits[i + 1].focus();
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !input.value && i > 0) digits[i - 1].focus();
+            });
+        });
+
+        function unirCodigo() {
+            let codigo = '';
+            digits.forEach(d => codigo += d.value);
+            document.getElementById('codigoFinal').value = codigo;
+        }
+    </script>
+</body>
+
+</html>

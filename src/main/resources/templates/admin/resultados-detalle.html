@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Detalle Resultados</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f4f8;
+        }
+
+        header {
+            background: #1a3c6e;
+            color: white;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.2rem;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .seccion {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            color: #1a3c6e;
+            margin-bottom: 0.3rem;
+        }
+
+        .total {
+            font-size: 0.88rem;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+
+        .candidato-fila {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .candidato-fila:last-child {
+            border-bottom: none;
+        }
+
+        .posicion {
+            font-size: 1.3rem;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .foto-can{
+            width:65px;
+            height:65px;
+            border-radius:10%;
+            object-fit:cover;
+            border:2px solid #1a3c6e;
+            flex-shrink:0;
+        }
+
+        .foto-candidato{
+            width:65px;
+            height:55px;
+            border-radius:10%;
+            background:#e8edf5;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:1.4rem;
+            flex-shrink:0;
+        }
+
+        .info {
+            flex: 1;
+        }
+
+        .info .nombre {
+            font-weight: 600;
+            color: #1a3c6e;
+            font-size: 0.95rem;
+        }
+
+        .info .partido {
+            font-size: 0.82rem;
+            color: #888;
+        }
+
+        .votos-count {
+            font-weight: 700;
+            color: #1a3c6e;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        .barra-wrap {
+            flex: 2;
+            background: #f0f4f8;
+            border-radius: 20px;
+            height: 14px;
+            overflow: hidden;
+        }
+
+        .barra-fill {
+            height: 100%;
+            background: #1a3c6e;
+            border-radius: 20px;
+            transition: width 0.5s;
+        }
+
+        .porcentaje {
+            min-width: 48px;
+            text-align: right;
+            font-size: 0.88rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .ganador .barra-fill {
+            background: #2e7d32;
+        }
+
+        .ganador .nombre {
+            color: #2e7d32;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>📊 Resultados</h1>
+        <div class="nav">
+            <a th:href="@{/resultados/admin/{id}/excel(id=${eleccion.idEleccion})}">⬇️ Exportar Excel</a>
+            <a th:href="@{/resultados/admin}">← Volver</a>
+            <a th:href="@{/admin/logout}">Cerrar sesión</a>
+        </div>
+    </header>
+    <main>
+        <div class="seccion">
+            <h2 th:text="${eleccion.nombre}">Nombre elección</h2>
+            <p class="total">Total de votos emitidos: <strong th:text="${totalVotos}">0</strong></p>
+
+            <div th:each="d, i : ${datos}"
+                th:classappend="${i.index == 0 ? 'candidato-fila ganador' : 'candidato-fila'}">
+                <!-- Posición -->
+                <span class="posicion">
+                    <span th:if="${i.index == 0}">1.</span>
+                    <span th:if="${i.index == 1}">2.</span>
+                    <span th:if="${i.index == 2}">3.</span>
+                    <span th:if="${i.index > 2}" th:text="${i.index + 1}"></span>
+                </span>
+                <!-- Foto -->
+                <img th:if="${d.candidato != null and d.candidato.foto != null}" class="foto-can"
+                    th:src="@{'/candidatos/fotos/' + ${d.candidato.foto}}"/>
+                <div th:unless="${d.candidato != null and d.candidato.foto != null}" class="foto-candidato">
+                <span th:text="${d.candidato != null ? '👤' : '⬜'}"></span>
+                </div>
+                <!-- Info candidato -->
+                <div class="info">
+                    <p class="nombre"
+                        th:text="${d.candidato != null ? d.candidato.nombres + ' ' + d.candidato.apellidos : 'Voto en Blanco'}">
+                    </p>
+                    <p class="partido" th:text="${d.candidato != null ? d.candidato.partido.nombre : '—'}">
+                    </p>
+                </div>
+                <!-- Barra de progreso -->
+                <div class="barra-wrap">
+                    <div class="barra-fill" th:style="'width:' + ${d.porcentaje} + '%'"></div>
+                </div>
+                <!-- Porcentaje -->
+                <span class="porcentaje" th:text="${d.porcentaje} + '%'">0%</span>
+                <!-- Votos -->
+                <span class="votos-count" th:text="${d.votos} + ' votos'">0</span>
+            </div>
+
+            <div th:if="${totalVotos == 0}" style="text-align:center; color:#aaa; padding:2rem;">
+                Aún no hay votos registrados en esta elección.
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

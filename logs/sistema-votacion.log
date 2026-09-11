@@ -1,0 +1,63 @@
+2026-07-16 03:26:26 [INFO] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-07-16 03:26:27 [INFO] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-07-16 03:26:27 [INFO] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-16 03:26:27 [INFO] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-07-16 03:26:27 [INFO] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-07-16 10:10:37 [INFO] c.v.s.SistemaVotacionApplication - Starting SistemaVotacionApplication using Java 25 with PID 24972 (C:\Users\USUARIO\Desktop\ESTUDIOS\Proyecto_I\SistemaVotacion-Integrador1\target\classes started by USUARIO in C:\Users\USUARIO\Desktop\ESTUDIOS\Proyecto_I\SistemaVotacion-Integrador1)
+2026-07-16 10:10:37 [INFO] c.v.s.SistemaVotacionApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-16 10:10:38 [INFO] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-16 10:10:38 [INFO] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 104 ms. Found 9 JPA repository interfaces.
+2026-07-16 10:10:39 [INFO] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-07-16 10:10:39 [INFO] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-07-16 10:10:39 [INFO] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-07-16 10:10:39 [INFO] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-07-16 10:10:39 [INFO] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-07-16 10:10:39 [INFO] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1832 ms
+2026-07-16 10:10:39 [INFO] o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-07-16 10:10:39 [INFO] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.49.Final
+2026-07-16 10:10:39 [INFO] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-07-16 10:10:40 [INFO] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-16 10:10:40 [INFO] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-07-16 10:10:40 [INFO] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@14292d71
+2026-07-16 10:10:40 [INFO] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-07-16 10:10:40 [WARN] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-16 10:10:40 [INFO] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.46
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-16 10:10:42 [INFO] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-16 10:10:42 [INFO] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-16 10:10:43 [WARN] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-16 10:10:43 [WARN] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: d2e7a995-d584-4b39-8562-2987d123ba8b
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-07-16 10:10:43 [INFO] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-07-16 10:10:43 [INFO] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-07-16 10:10:43 [INFO] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-07-16 10:10:43 [INFO] c.v.s.SistemaVotacionApplication - Started SistemaVotacionApplication in 6.973 seconds (process running for 7.56)
+2026-07-16 10:15:24 [INFO] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-16 10:15:24 [INFO] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-07-16 10:15:24 [INFO] o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-07-16 10:15:52 [INFO] c.v.s.c.AdministradorController - Admin logueado correctamente: admin
+2026-07-16 10:16:30 [INFO] c.v.s.c.VotanteAdminController - Votante registrado - DNI: 12345678
+2026-07-16 10:16:49 [INFO] c.v.s.c.ResultadosController - Admin consultó resultados
+2026-07-16 10:25:28 [INFO] c.v.s.controller.VotanteController - OTP generado para DNI 12345678: 876413
+2026-07-16 10:25:45 [INFO] c.v.s.controller.VotanteController - Votante autenticado correctamente: 12345678
+2026-07-16 10:26:31 [INFO] c.v.s.controller.VotoController - Voto emitido - Eleccion: 53 Candidato: 56
+2026-07-16 10:26:31 [INFO] c.v.s.controller.VotoController - Comprobante generado: 1316A9CA
+2026-07-16 10:27:04 [INFO] c.v.s.controller.VotanteController - OTP generado para DNI 12345678: 383571
+2026-07-16 10:27:17 [INFO] c.v.s.controller.VotanteController - Votante autenticado correctamente: 12345678
+2026-07-16 10:27:36 [INFO] c.v.s.c.AdministradorController - Admin logueado correctamente: admin
+2026-07-16 10:27:49 [INFO] c.v.s.controller.EleccionController - Estado de elección 53 cambiado a: CERRADA
+2026-07-16 10:27:59 [INFO] c.v.s.controller.EleccionController - Resultados publicados para elección ID: 53
+2026-07-16 10:28:21 [INFO] c.v.s.c.ResultadosController - Resultados públicos consultados - Elección ID: 53
+2026-07-16 10:29:15 [INFO] c.v.s.c.AdministradorController - Admin logueado correctamente: admin
+2026-07-16 10:33:14 [INFO] c.v.s.c.VotanteAdminController - Votante eliminado - ID: 147
+2026-07-16 10:33:40 [INFO] c.v.s.c.VotanteAdminController - Votante eliminado - ID: 140

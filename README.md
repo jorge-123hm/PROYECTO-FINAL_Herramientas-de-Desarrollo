@@ -55,13 +55,16 @@ sistema-votacion/
 │   │   │   │   ├── EleccionController.java
 │   │   │   │   ├── ResultadosController.java
 │   │   │   │   ├── VotanteController.java
-│   │   │   │   └── VotoController.java
+│   │   │   │   ├── VotoController.java
+│   │   │   │   ├── PartidoPoliticoController.java
+│   │   │   │   └── VotanteAdminController.java
 │   │   │   ├── model/
 │   │   │   │   ├── Administrador.java
 │   │   │   │   ├── Candidato.java
 │   │   │   │   ├── Comprobante.java
 │   │   │   │   ├── Eleccion.java
 │   │   │   │   ├── Otp.java
+│   │   │   │   ├── Participacion.java
 │   │   │   │   ├── PartidoPolitico.java
 │   │   │   │   ├── Votante.java
 │   │   │   │   └── Voto.java
@@ -73,10 +76,15 @@ sistema-votacion/
 │   │   │   │   ├── OtpRepository.java
 │   │   │   │   ├── PartidoPoliticoRepository.java
 │   │   │   │   ├── VotanteRepository.java
+│   │   │   │   ├── ParticipacionRepository.java
 │   │   │   │   └── VotoRepository.java
+│   │   │   ├── service/
+│   │   │   │   └── RecaptchaService.java
 │   │   │   ├── SecurityConfig.java
 │   │   │   └── SistemaVotacionApplication.java
 │   │   └── resources/
+│   │       ├── static/
+│   │       │   └── img/
 │   │       ├── templates/
 │   │       │   ├── admin/
 │   │       │   └── votante/
@@ -99,7 +107,7 @@ sistema-votacion/
 
 ### 1. Clonar el repositorio
 ```bash
-git clone https://github.com/tu-usuario/sistema-votacion.git
+git clone https://github.com/tu-usuario/PROYECTO-FINAL_Herramientas-de-Desarrollo.git
 cd sistema-votacion
 ```
 
@@ -130,7 +138,7 @@ VALUES ('Juan', 'García', null, 1, 1);
 
 ### 5. Ejecutar la aplicación
 ```bash
-mvn spring-boot:run
+ ./mvnw spring-boot:run
 ```
 
 ---
@@ -149,7 +157,7 @@ mvn spring-boot:run
 
 ---
 
-## Avance del Proyecto (40%)
+## Avance del Proyecto (100%)
 
 | Funcionalidad | Estado |
 |---|---|
@@ -160,9 +168,9 @@ mvn spring-boot:run
 | Emisión de voto único | Completado |
 | Comprobante de voto | Completado |
 | Integración Logback | Completado |
-| Pruebas de Software | Pendiente |
-| Pruebas de Seguridad | Pendiente |
-| Despliegue con Maven | Pendiente |
+| Pruebas de Software | Compleatado |
+| Pruebas de Seguridad | Completado |
+| Despliegue con Maven | Completado |
 
 ---
 

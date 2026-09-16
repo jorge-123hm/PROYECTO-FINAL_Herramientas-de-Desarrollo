@@ -18,8 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import org.apache.commons.lang3.StringUtils;
 
-
-
 @Controller
 @RequestMapping("/votante")
 public class VotanteController {
@@ -42,12 +40,20 @@ public class VotanteController {
 
     // Procesar DNI y generar OTP
     @PostMapping("/login")
-    public String procesarDni(@RequestParam String dni, @RequestParam(name = "g-recaptcha-response", required = false) String recaptchaToken,
+    public String procesarDni(@RequestParam String dni,
+            @RequestParam(name = "g-recaptcha-response", required = false) String recaptchaToken,
             HttpSession session, Model model) {
 
         // Verificar reCAPTCHA
         if (recaptchaToken == null || !recaptchaService.verificar(recaptchaToken)) {
             model.addAttribute("error", "Por favor completa el captcha");
+            return "votante/login";
+        }
+
+        // Validar formato de DNI (debe tener exactamente 8 dígitos numéricos)
+        if (dni == null || !StringUtils.isNumeric(dni) || dni.length() != 8) {
+            model.addAttribute("error", "El DNI debe contener 8 dígitos numéricos");
+            log.warn("Intento de login con DNI con formato inválido: {}", dni);
             return "votante/login";
         }
 
@@ -76,7 +82,6 @@ public class VotanteController {
         // En producción aquí se enviaría el OTP por SMS
         // Por ahora lo mostramos en consola
         log.info("OTP generado para DNI {}: {}", dni, codigo);
-
 
         session.setAttribute("dniVotante", dni);
         session.setAttribute("celularVotante", votante.getCelular());

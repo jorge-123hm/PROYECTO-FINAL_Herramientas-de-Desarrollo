@@ -420,6 +420,13 @@
         function cerrarModal() {
             document.getElementById('modalOverlay').classList.remove('visible');
         }
+
+        function mostrarModalDescarga(el) {
+            const archivo = el.getAttribute('data-archivo');
+            const formato = confirm("Presiona Aceptar para PDF, Cancelar para Word");
+            const url = `/candidatos/archivos/${archivo}?formato=${formato ? 'pdf' : 'word'}`;
+            window.open(url, '_blank');
+        }        
     </script>
 </body>
 

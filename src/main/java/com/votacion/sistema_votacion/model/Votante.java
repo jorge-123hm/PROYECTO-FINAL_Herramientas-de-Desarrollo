@@ -22,15 +22,18 @@ public class Votante {
 
     private String celular;
 
+    private String fotoUrl; 
+
     // Constructores
     public Votante() {
     }
 
-    public Votante(String dni, String nombres, String apellidos, String celular) {
+    public Votante(String dni, String nombres, String apellidos, String celular, String fotoUrl) {
         this.dni = dni;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.celular = celular;
+        this.fotoUrl = fotoUrl;
     }
 
     // Getters y Setters
@@ -72,5 +75,13 @@ public class Votante {
 
     public void setCelular(String celular) {
         this.celular = celular;
+    }
+
+    public String getFotoUrl() {
+        return fotoUrl;
+    }
+
+    public void setFotoUrl(String fotoUrl) {
+        this.fotoUrl = fotoUrl;
     }
 }

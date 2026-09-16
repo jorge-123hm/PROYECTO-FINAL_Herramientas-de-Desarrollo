@@ -7,12 +7,19 @@ import com.votacion.sistema_votacion.repository.OtpRepository;
 import com.votacion.sistema_votacion.repository.VotanteRepository;
 import com.votacion.sistema_votacion.repository.ParticipacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
+
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.nio.file.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +57,9 @@ public class VotanteAdminController {
             @RequestParam String nombres,
             @RequestParam String apellidos,
             @RequestParam String celular,
+            @RequestParam(required = false) MultipartFile foto,
             HttpSession session,
-            Model model) {
+            Model model) throws IOException {
 
         if (session.getAttribute("adminLogueado") == null)
             return "redirect:/admin/login";
@@ -78,8 +86,17 @@ public class VotanteAdminController {
         String nombresFormateados = capitalizarPalabras(nombres);
         String apellidosFormateados = capitalizarPalabras(apellidos);
 
+        // Guardar foto del votante en uploads/ (mismo patrón que fotos de candidato)
+        String nombreFoto = null;
+        if (foto != null && !foto.isEmpty()) {
+            nombreFoto = "votante_" + System.currentTimeMillis() + "_" + foto.getOriginalFilename();
+            Path destino = Paths.get("uploads/" + nombreFoto);
+            Files.createDirectories(destino.getParent());
+            Files.copy(foto.getInputStream(), destino, StandardCopyOption.REPLACE_EXISTING);
+        }
+
         votanteRepository.save(
-                new Votante(dni, nombresFormateados, apellidosFormateados, celular));
+                new Votante(dni, nombresFormateados, apellidosFormateados, celular, nombreFoto));
 
         log.info("Votante registrado - DNI: {}", dni);
 
@@ -125,5 +142,27 @@ public class VotanteAdminController {
         votanteRepository.deleteById(id);
 
         return "redirect:/votantes";
+    }
+
+    // Servir la foto del votante
+    @GetMapping("/fotos/{filename}")
+    @ResponseBody
+    public ResponseEntity<Resource> verFoto(@PathVariable String filename) throws Exception {
+        Path path = Paths.get("uploads/" + filename);
+        Resource resource = new UrlResource(path.toUri());
+
+        if (!resource.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String contentType = "image/jpeg";
+        if (filename.toLowerCase().endsWith(".png"))
+            contentType = "image/png";
+        if (filename.toLowerCase().endsWith(".webp"))
+            contentType = "image/webp";
+
+        return ResponseEntity.ok()
+                .header("Content-Type", contentType)
+                .body(resource);
     }
 }

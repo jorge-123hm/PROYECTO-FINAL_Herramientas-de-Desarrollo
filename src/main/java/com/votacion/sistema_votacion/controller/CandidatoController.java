@@ -121,6 +121,23 @@ public class CandidatoController {
                 .body(resource);
     }
 
+    // descargadePDF
+    @GetMapping("/descargar/{filename}")
+    @ResponseBody
+    public ResponseEntity<Resource> descargarArchivo(@PathVariable String filename) throws Exception {
+        Path path = Paths.get("uploads/" + filename);
+        Resource resource = new UrlResource(path.toUri());
+
+        if (!resource.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/pdf")
+                .header("Content-Disposition", "attachment; filename=\"" + filename + "\"")
+                .body(resource);
+    }
+
     //Servir foto 
     @GetMapping("/fotos/{filename}")
     @ResponseBody

@@ -151,6 +151,24 @@
             background: #e0e8f0;
         }
 
+        .btn-descarga {
+            display: inline-block;
+            text-align: center;
+            padding: 0.4rem 0.8rem;
+            background: #f0f4f8;
+            color: #1a3c6e;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.3rem;
+            align-self: flex-start;
+        }
+
+        .btn-descarga:hover {
+            background: #e0e8f0;
+        }
+
         .card-blanco .card-foto-default {
             background: #f5f5f5;
             color: #aaa;
@@ -334,6 +352,10 @@
                         th:href="@{'/candidatos/archivos/' + ${c.propuestasPdf}}" target="_blank"
                         onclick="event.stopPropagation()">
                         📄 Ver propuestas
+                    </a>
+                    <a class="btn-descarga" th:if="${c.propuestasPdf != null}"
+                        th:href="@{'/candidatos/descargar/' + ${c.propuestasPdf}}" onclick="event.stopPropagation()">
+                        📥 Descargar
                     </a>
                 </div>
             </div>

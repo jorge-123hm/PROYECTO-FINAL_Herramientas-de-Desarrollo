@@ -335,6 +335,11 @@
                         onclick="event.stopPropagation()">
                         📄 Ver propuestas
                     </a>
+                    <a class="btn-descarga" th:if="${c.propuestasPdf != null}" href="#"
+                        th:attr="data-archivo=${c.propuestasPdf}"
+                        onclick="event.stopPropagation(); mostrarModalDescarga(this)">
+                        📥 Descargar
+                    </a>
                 </div>
             </div>
 
@@ -398,6 +403,13 @@
         function cerrarModal() {
             document.getElementById('modalOverlay').classList.remove('visible');
         }
+
+        function mostrarModalDescarga(el) {
+            const archivo = el.getAttribute('data-archivo');
+            const formato = confirm("Presiona Aceptar para PDF, Cancelar para Word");
+            const url = `/candidatos/archivos/${archivo}?formato=${formato ? 'pdf' : 'word'}`;
+            window.open(url, '_blank');
+        }        
     </script>
 </body>
 

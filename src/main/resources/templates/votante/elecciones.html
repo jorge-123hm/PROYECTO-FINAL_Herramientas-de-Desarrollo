@@ -140,13 +140,13 @@
             }
         }
 
-        .modalDobleVoto{
+        .modalDobleVoto {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.5); 
+            background: rgba(0, 0, 0, 0.5);
             z-index: 999;
-            display: flex; 
-            align-items: center; 
+            display: flex;
+            align-items: center;
             justify-content: center;
             padding: 1rem;
         }
@@ -157,6 +157,9 @@
     <header>
         <h1>SVÉS</h1>
         <div>
+            <img th:if="${votanteLogueado?.fotoUrl != null}" th:src="@{'/votantes/fotos/' + ${votanteLogueado.fotoUrl}}"
+                alt="Foto de perfil"
+                style="width:36px; height:36px; border-radius:50%; object-fit:cover; vertical-align:middle; margin-right:8px;" />
             <span th:text="'Bienvenido/a, ' + ${votanteLogueado?.nombres}"></span>
             &nbsp;
             <a class="logout" th:href="@{/votante/logout}">Cerrar sesión</a>

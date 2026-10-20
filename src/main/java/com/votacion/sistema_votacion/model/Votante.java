@@ -36,6 +36,10 @@ public class Votante {
         this.fotoUrl = fotoUrl;
     }
 
+    public Votante(String dni, String nombres, String apellidos, String celular) {
+    this(dni, nombres, apellidos, celular, null);
+    }
+
     // Getters y Setters
     public Long getIdVotante() {
         return idVotante;

@@ -1,0 +1,30 @@
+name: CI - Sistema de Votacion
+
+# Se ejecuta automaticamente al abrir (o actualizar) cualquier Pull Request
+on:
+  pull_request:
+
+jobs:
+  build-and-test:
+    name: Linter, Build y Pruebas
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: 1) Linter (Checkstyle)
+        run: mvn -B -ntp checkstyle:check
+
+      - name: 2) Compilar (build)
+        run: mvn -B -ntp -DskipTests compile
+
+      - name: 3) Pruebas unitarias e integracion
+        run: mvn -B -ntp test

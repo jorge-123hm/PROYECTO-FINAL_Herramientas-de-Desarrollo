@@ -10,6 +10,7 @@ import com.votacion.sistema_votacion.repository.PartidoPoliticoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,11 +21,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import java.nio.charset.StandardCharsets;
+
 
 @Controller
 @RequestMapping("/candidatos")
@@ -83,13 +90,15 @@ public class CandidatoController {
         // Guardar el PDF en la carpeta uploads/
         String nombreArchivo = null;
         if (propuestasPdf != null && !propuestasPdf.isEmpty()) {
-            nombreArchivo = System.currentTimeMillis() + "_" + propuestasPdf.getOriginalFilename();
+            String nombreLimpio = propuestasPdf.getOriginalFilename()
+                    .replaceAll("[^a-zA-Z0-9._-]", "_");
+            nombreArchivo = System.currentTimeMillis() + "_" + nombreLimpio;
             Path destino = Paths.get("uploads/" + nombreArchivo);
             Files.createDirectories(destino.getParent());
             Files.copy(propuestasPdf.getInputStream(), destino, StandardCopyOption.REPLACE_EXISTING);
         }
 
-        //Guardar foto de candidato
+        // Guardar foto de candidato
         String nombreFoto = null;
         if (foto != null && !foto.isEmpty()) {
             nombreFoto = "foto_" + System.currentTimeMillis() + "_" + foto.getOriginalFilename();
@@ -125,24 +134,39 @@ public class CandidatoController {
     @GetMapping("/descargar/{filename}")
     @ResponseBody
     public ResponseEntity<Resource> descargarArchivo(@PathVariable String filename) throws Exception {
-        Path path = Paths.get("uploads/" + filename);
-        Resource resource = new UrlResource(path.toUri());
+        Path carpeta = Paths.get("uploads").toAbsolutePath().normalize();
+        Path path = carpeta.resolve(filename).normalize();
 
+        // Evita rutas como ../../archivo
+        if (!path.startsWith(carpeta)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Resource resource = new UrlResource(path.toUri());
         if (!resource.exists()) {
             return ResponseEntity.notFound().build();
         }
 
+        // Quita el prefijo de timestamp: "1712345_plan.pdf" -> "plan.pdf"
+        String nombreOriginal = filename.contains("_")
+                ? filename.substring(filename.indexOf('_') + 1)
+                : filename;
+
+        ContentDisposition disposition = ContentDisposition.attachment()
+                .filename(nombreOriginal, StandardCharsets.UTF_8)
+                .build();
+
         return ResponseEntity.ok()
-                .header("Content-Type", "application/pdf")
-                .header("Content-Disposition", "attachment; filename=\"" + filename + "\"")
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, disposition.toString())
                 .body(resource);
     }
 
-    //Servir foto 
+    // Servir foto
     @GetMapping("/fotos/{filename}")
     @ResponseBody
     public ResponseEntity<Resource> verFoto(@PathVariable String filename) throws Exception {
-        Path path     = Paths.get("uploads/" + filename);
+        Path path = Paths.get("uploads/" + filename);
         Resource resource = new UrlResource(path.toUri());
 
         if (!resource.exists()) {
@@ -151,12 +175,14 @@ public class CandidatoController {
 
         // Detecta el tipo de imagen automáticamente
         String contentType = "image/jpeg";
-        if (filename.toLowerCase().endsWith(".png"))  contentType = "image/png";
-        if (filename.toLowerCase().endsWith(".webp")) contentType = "image/webp";
+        if (filename.toLowerCase().endsWith(".png"))
+            contentType = "image/png";
+        if (filename.toLowerCase().endsWith(".webp"))
+            contentType = "image/webp";
 
         return ResponseEntity.ok()
-            .header("Content-Type", contentType)
-            .body(resource);
+                .header("Content-Type", contentType)
+                .body(resource);
     }
 
     // Eliminar candidato
@@ -166,22 +192,22 @@ public class CandidatoController {
             return "redirect:/admin/login";
 
         Candidato candidato = candidatoRepository.findById(id).orElse(null);
-        if (candidato == null) return "redirect:/candidatos/admin";
+        if (candidato == null)
+            return "redirect:/candidatos/admin";
 
-    // Verificar si tiene votos asociados
-    long totalVotos = votoRepository.countByCandidatoAndEleccion(
-        candidato, candidato.getEleccion()
-    );
+        // Verificar si tiene votos asociados
+        long totalVotos = votoRepository.countByCandidatoAndEleccion(
+                candidato, candidato.getEleccion());
 
-    if (totalVotos > 0) {
-        redirectAttributes.addFlashAttribute("errorEliminar",
-            "No se puede eliminar a " + candidato.getNombres() + " " 
-            + candidato.getApellidos() + " porque tiene " + totalVotos 
-            + " voto(s) registrado(s). Primero elimina el proceso electoral: "
-            + candidato.getEleccion().getNombre());
+        if (totalVotos > 0) {
+            redirectAttributes.addFlashAttribute("errorEliminar",
+                    "No se puede eliminar a " + candidato.getNombres() + " "
+                            + candidato.getApellidos() + " porque tiene " + totalVotos
+                            + " voto(s) registrado(s). Primero elimina el proceso electoral: "
+                            + candidato.getEleccion().getNombre());
             log.warn("Intento de eliminar candidato con votos - ID: {}", id);
-        return "redirect:/candidatos/admin";
-    }
+            return "redirect:/candidatos/admin";
+        }
 
         candidatoRepository.deleteById(id);
         log.info("Candidato eliminado - ID: {}", id);

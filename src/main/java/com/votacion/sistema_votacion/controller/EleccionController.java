@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.util.Map;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,15 +49,23 @@ public class EleccionController {
             @RequestParam String fechaInicio,
             @RequestParam String fechaFin,
             @RequestParam String estado,
-            HttpSession session) {
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
         if (session.getAttribute("adminLogueado") == null)
             return "redirect:/admin/login";
 
-        Eleccion eleccion = new Eleccion(
-                nombre, descripcion,
-                LocalDateTime.parse(fechaInicio),
-                LocalDateTime.parse(fechaFin),
-                estado);
+        LocalDateTime inicio = LocalDateTime.parse(fechaInicio);
+        LocalDateTime fin = LocalDateTime.parse(fechaFin);
+
+        // La fecha de fin debe ser posterior a la de inicio
+        if (!fin.isAfter(inicio)) {
+            redirectAttributes.addFlashAttribute("errorFechas",
+                    "La fecha de fin debe ser posterior a la fecha de inicio.");
+            log.warn("Intento de crear eleccion con fechas invalidas: {} -> {}", fechaInicio, fechaFin);
+            return "redirect:/elecciones";
+        }
+
+        Eleccion eleccion = new Eleccion(nombre, descripcion, inicio, fin, estado);
         eleccionRepository.save(eleccion);
         log.info("Elección creada: {}", nombre);
         return "redirect:/elecciones";

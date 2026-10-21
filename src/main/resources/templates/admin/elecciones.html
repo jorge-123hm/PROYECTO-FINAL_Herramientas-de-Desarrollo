@@ -170,14 +170,14 @@
             color: #c0392b;
         }
 
-        .btn-publicar{
-            background:#fff3e0; 
-            color:#e65100;
+        .btn-publicar {
+            background: #fff3e0;
+            color: #e65100;
         }
 
-        .btn-resultados{
-            background:#e8f5e9; 
-            color:#2e7d32;
+        .btn-resultados {
+            background: #e8f5e9;
+            color: #2e7d32;
         }
 
         .btn-eliminar {
@@ -199,6 +199,9 @@
         <!-- Formulario nueva elección -->
         <div class="seccion">
             <h2>➕ Nueva Elección</h2>
+            <div th:if="${errorFechas}"
+                style="background:#fdecea; color:#c0392b; padding:10px 14px; border-radius:8px; margin-bottom:12px;"
+                th:text="${errorFechas}"></div>
             <form method="post" th:action="@{/elecciones/guardar}">
                 <div class="form-grid">
                     <div>
@@ -261,8 +264,8 @@
                                 border-radius: 5px; font-size: 0.78rem; font-weight: 600; margin-right: 3px;">
                                 ✅ Publicada
                             </span>
-                            <a class="btn-accion btn-resultados" th:href="@{'/resultados/admin/' + ${e.idEleccion}}"
-                                >Resultados</a>
+                            <a class="btn-accion btn-resultados"
+                                th:href="@{'/resultados/admin/' + ${e.idEleccion}}">Resultados</a>
                             <a class="btn-accion btn-eliminar"
                                 th:onclick="'abrirModalEliminar(\'/elecciones/eliminar/' + ${e.idEleccion} + '\')'"
                                 href="javascript:void(0)">Eliminar</a>

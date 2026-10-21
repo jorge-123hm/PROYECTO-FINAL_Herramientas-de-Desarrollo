@@ -354,7 +354,7 @@
                         📄 Ver propuestas
                     </a>
                     <a class="btn-descarga" th:if="${c.propuestasPdf != null}"
-                        th:href="@{'/candidatos/descargar/' + ${c.propuestasPdf}}" onclick="event.stopPropagation()">
+                        th:href="@{/candidatos/descargar/{f}(f=${c.propuestasPdf})}" onclick="event.stopPropagation()">
                         📥 Descargar
                     </a>
                 </div>

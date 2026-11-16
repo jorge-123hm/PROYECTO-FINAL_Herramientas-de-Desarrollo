@@ -1,15 +1,15 @@
-2026-11-14 23:07:51 [INFO] c.v.s.SistemaVotacionApplicationTests - Starting SistemaVotacionApplicationTests using Java 25 with PID 14820 (started by USUARIO in C:\Users\USUARIO\Desktop\ESTUDIOS\Herramientas de Desarrollo\PROYECTO-FINAL_Herramientas-de-Desarrollo)
-2026-11-14 23:07:51 [INFO] c.v.s.SistemaVotacionApplicationTests - No active profile set, falling back to 1 default profile: "default"
-2026-11-14 23:07:52 [INFO] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-11-14 23:07:52 [INFO] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 74 ms. Found 9 JPA repository interfaces.
-2026-11-14 23:07:52 [INFO] o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-11-14 23:07:52 [INFO] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.49.Final
-2026-11-14 23:07:52 [INFO] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2026-11-14 23:07:53 [INFO] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-11-14 23:07:53 [INFO] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2026-11-14 23:07:53 [INFO] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
-2026-11-14 23:07:53 [INFO] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2026-11-14 23:07:53 [INFO] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+2026-11-16 17:46:59 [INFO] c.v.s.SistemaVotacionApplicationTests - Starting SistemaVotacionApplicationTests using Java 25 with PID 16900 (started by USUARIO in C:\Users\USUARIO\Desktop\ESTUDIOS\Herramientas de Desarrollo\PROYECTO-FINAL_Herramientas-de-Desarrollo)
+2026-11-16 17:46:59 [INFO] c.v.s.SistemaVotacionApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2026-11-16 17:47:00 [INFO] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-16 17:47:00 [INFO] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 104 ms. Found 9 JPA repository interfaces.
+2026-11-16 17:47:01 [INFO] o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-11-16 17:47:01 [INFO] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.49.Final
+2026-11-16 17:47:01 [INFO] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-11-16 17:47:01 [INFO] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-16 17:47:01 [INFO] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-11-16 17:47:02 [INFO] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-11-16 17:47:02 [INFO] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-11-16 17:47:02 [INFO] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 2.3.232
@@ -17,19 +17,19 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2026-11-14 23:07:54 [INFO] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-11-14 23:07:55 [INFO] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-11-14 23:07:55 [WARN] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-11-14 23:07:56 [WARN] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+2026-11-16 17:47:03 [INFO] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-16 17:47:03 [INFO] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-16 17:47:04 [WARN] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-16 17:47:04 [WARN] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
 
-Using generated security password: e908a709-6cd2-402a-b84d-cb70d5948a29
+Using generated security password: 88500c08-92d0-4f3f-9a58-9286a8d7893a
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2026-11-14 23:07:56 [INFO] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2026-11-14 23:07:56 [INFO] c.v.s.SistemaVotacionApplicationTests - Started SistemaVotacionApplicationTests in 5.396 seconds (process running for 6.312)
-2026-11-14 23:07:57 [INFO] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.votacion.sistema_votacion.SistemaVotacionTests]: SistemaVotacionTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-11-14 23:07:57 [INFO] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.votacion.sistema_votacion.SistemaVotacionApplication for test class com.votacion.sistema_votacion.SistemaVotacionTests
-2026-11-14 23:07:57 [INFO] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2026-11-14 23:07:57 [INFO] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2026-11-14 23:07:57 [INFO] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-11-16 17:47:04 [INFO] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-11-16 17:47:04 [INFO] c.v.s.SistemaVotacionApplicationTests - Started SistemaVotacionApplicationTests in 5.43 seconds (process running for 6.447)
+2026-11-16 17:47:05 [INFO] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.votacion.sistema_votacion.SistemaVotacionTests]: SistemaVotacionTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-16 17:47:05 [INFO] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.votacion.sistema_votacion.SistemaVotacionApplication for test class com.votacion.sistema_votacion.SistemaVotacionTests
+2026-11-16 17:47:05 [INFO] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-16 17:47:05 [INFO] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-11-16 17:47:05 [INFO] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

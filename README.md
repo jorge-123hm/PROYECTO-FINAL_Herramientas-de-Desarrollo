@@ -143,6 +143,19 @@ VALUES ('Juan', 'García', null, 1, 1);
 
 ---
 
+## Datos de prueba (Docker)
+
+Con `docker compose up --build` se cargan datos de prueba automáticamente:
+
+| Rol | Usuario / DNI | Clave |
+|---|---|---|
+| Administrador | `admin` | `admin123` |
+| Votantes | `12345678`, `23456789`, `34567890`, `45678901`, `56789012` | OTP en el log |
+
+El código OTP del votante aparece en el log de la aplicación: `docker compose logs -f app`.
+
+---
+
 ## Rutas Principales
 
 | Ruta | Descripción |
